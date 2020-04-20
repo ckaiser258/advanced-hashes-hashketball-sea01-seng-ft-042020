@@ -123,11 +123,21 @@ hashketball = {:home =>
             }}
 end
 
+def player_with_most_steals
+  game_hash.each do |location, team_data|
+  end
+end
+
+def long_name_steals_a_ton?
+  
+end
+
 def num_points_scored(player_name)
   game_hash.each do |location, team_data|
     team_data[:players].each do |data|
        if player_name == data[:player_name]
           return data[:points]
+          binding.pry
     end
   end
   end
@@ -201,4 +211,52 @@ def big_shoe_rebounds
       end
     end
   end
+end
+
+def most_points_scored
+  most_points = []
+  game_hash.each do |location, team_data|
+    team_data[:players].each do |data|
+      most_points << data[:points]
+    end
+  end
+  most_points = most_points.sort[-1]
+  game_hash.each do |location, team_data|
+    team_data[:players].each do |data|
+      if data[:points] == most_points
+        return data[:player_name]
+      end
+    end
+  end
+end
+
+def winning_team
+  home_points = []
+  away_points = []
+  game_hash[:home][:players].each do |home_player_data|
+    home_points << home_player_data[:points]
+    end
+    home_points = home_points.sum
+      game_hash[:away][:players].each do |away_player_data|
+    away_points << away_player_data[:points]
+    end
+    away_points = away_points.sum
+    if home_points > away_points
+      return game_hash[:home][:team_name]
+    end
+    if away_points > home_points
+      return game_hash[:away][:team_name]
+    end
+end
+
+def player_with_longest_name
+  long_name_sum = ""
+  game_hash.each do |location, team_data|
+    team_data[:players].each do |data|
+      if data[:player_name].length > long_name_sum.length
+        long_name_sum = data[:player_name]
+      end
+    end
+  end
+  long_name_sum
 end
